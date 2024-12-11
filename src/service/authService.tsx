@@ -1,5 +1,5 @@
 import axios, { AxiosResponse } from "axios";
-import { User, userDetail, UserLogin, userRegisterDTO } from "../types/userTypes";
+import { ForgotPassOTP, User, userDetail, UserLogin, userRegisterDTO } from "../types/userTypes";
 import { hashPassword } from "../utils/utils";
 import { toast } from "react-toastify";
 import { BACKENDURL } from "../utils/cosntants";
@@ -56,5 +56,44 @@ export const AuthLoginService = async (userData: UserLogin, dispatch : any) => {
             toast.error("Invalid Email and Password");
         }
 
+    }
+}
+
+export const AuthVerifyEmail = async (email: string) => {
+    try {
+        const res = await axios.post(`${BACKENDURL}/api/users/verifyEmail`, {
+            email: email
+        });
+        if(res.status == 200){
+            console.log(res.data.otp);
+            const forgotpass : ForgotPassOTP = {
+                success: true,
+                otp: res.data.otp
+            }
+            return forgotpass;
+        }
+       
+    } catch (error) {
+        console.log(error);
+        const forgotpass : ForgotPassOTP = {
+            success: false,
+            otp: 0
+        }
+        return forgotpass;
+    }
+}
+
+export const AuthChangePassword = async (loginData: UserLogin) =>{
+    try {
+        const res = await axios.post(`${BACKENDURL}/api/users/changepassword`, {
+            email: loginData.email,
+            password: loginData.password
+        });
+        if(res.status == 200){
+            toast.success("Password changed Successfully");
+            window.location.href = '#/login';
+        }
+    } catch (error) {
+        console.log(error);
     }
 }

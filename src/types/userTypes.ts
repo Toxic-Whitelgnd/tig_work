@@ -40,3 +40,8 @@ export interface userDetail {
     }
  
 }
+
+export interface ForgotPassOTP  {
+    success: boolean;
+    otp: number
+}

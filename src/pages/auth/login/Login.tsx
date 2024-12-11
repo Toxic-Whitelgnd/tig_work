@@ -13,7 +13,7 @@ export default function Login() {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [errors, setErrors] = useState<{ email?: string; password?: string }>({});
-    const [errorTimeout, setErrorTimeout] = useState<number | null>(null);
+    const [errorTimeout, setErrorTimeout] = useState<NodeJS.Timeout | null>(null);
 
     const dispatch = useDispatch();
 
@@ -74,7 +74,7 @@ export default function Login() {
     }, [errorTimeout]);
 
     function handleForgotPassword(): void {
-        console.log("implement");
+        window.location.href = '#/forgotpassword';
     }
 
     return (
